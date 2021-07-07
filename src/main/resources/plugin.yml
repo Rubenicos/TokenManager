@@ -1,7 +1,7 @@
 name: TokenManager
 main: me.realized.tokenmanager.TokenManagerPlugin
-version: @VERSION@
-softdepend: [MVdWPlaceholderAPI, PlaceholderAPI, Vault]
+version: ${version}
+softdepend: [PlaceholderAPI, Vault]
 api-version: 1.13
 
 author: Realized

@@ -1,13 +1,6 @@
 package me.realized.tokenmanager.util.command;
 
 import com.google.common.collect.Lists;
-import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import lombok.Getter;
 import me.realized.tokenmanager.util.StringUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -15,21 +8,22 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public abstract class AbstractCommand<P extends JavaPlugin> implements TabCompleter {
 
     protected final P plugin;
 
-    @Getter
     private final String name;
-    @Getter
     private final String usage;
-    @Getter
     private final String permission;
-    @Getter
     private final boolean playerOnly;
-    @Getter
     private final int length;
-    @Getter
     private final List<String> aliases;
 
     private Map<String, AbstractCommand<P>> children;
@@ -170,6 +164,30 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
     }
 
     protected abstract void execute(final CommandSender sender, final String label, final String[] args);
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getUsage() {
+        return this.usage;
+    }
+
+    public String getPermission() {
+        return this.permission;
+    }
+
+    public boolean isPlayerOnly() {
+        return this.playerOnly;
+    }
+
+    public int getLength() {
+        return this.length;
+    }
+
+    public List<String> getAliases() {
+        return this.aliases;
+    }
 
     protected enum MessageType {
 

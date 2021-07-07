@@ -1,12 +1,13 @@
 package me.realized.tokenmanager.command.commands.subcommands;
 
-import java.util.stream.Collectors;
 import me.realized.tokenmanager.Permissions;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.command.BaseCommand;
 import me.realized.tokenmanager.shop.Shop;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
+
+import java.util.stream.Collectors;
 
 public class ShopsCommand extends BaseCommand {
 

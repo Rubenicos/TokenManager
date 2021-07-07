@@ -1,72 +1,43 @@
 package me.realized.tokenmanager.config;
 
-import java.util.HashMap;
-import java.util.Map;
-import lombok.Getter;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.util.config.AbstractConfiguration;
 import me.realized.tokenmanager.util.config.convert.Converter;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Config extends AbstractConfiguration<TokenManagerPlugin> {
 
-    @Getter
     private int version;
-    @Getter
     private boolean checkForUpdates;
-    @Getter
     private String onlineMode;
-    @Getter
     private boolean altPrevention;
-    @Getter
     private int defaultBalance;
-    @Getter
     private long sendMin;
-    @Getter
     private long sendMax;
-    @Getter
     private boolean openSelectedEnabled;
-    @Getter
     private String openSelectedShop;
-    @Getter
     private String confirmPurchaseTitle;
-    @Getter
     private String confirmPurchaseConfirm;
-    @Getter
     private String confirmPurchaseCancel;
-    @Getter
     private int clickDelay;
-    @Getter
     private boolean checkInventoryFull;
-    @Getter
     private boolean logPurchases;
-    @Getter
     private boolean mysqlEnabled;
-    @Getter
     private String mysqlUsername;
-    @Getter
     private String mysqlPassword;
-    @Getter
     private String mysqlHostname;
-    @Getter
     private String mysqlPort;
-    @Getter
     private String mysqlDatabase;
-    @Getter
     private String mysqlTable;
-    @Getter
     private String mysqlUrl;
-    @Getter
     private boolean redisEnabled;
-    @Getter
     private String redisServer;
-    @Getter
     private int redisPort;
-    @Getter
     private String redisPassword;
-    @Getter
     private boolean registerEconomy;
-    @Getter
     private int balanceTopUpdateInterval;
 
     public Config(final TokenManagerPlugin plugin) {
@@ -110,6 +81,122 @@ public class Config extends AbstractConfiguration<TokenManagerPlugin> {
         redisPassword = configuration.getString("data.mysql.redis.password", "");
         registerEconomy = configuration.getBoolean("data.register-economy", false);
         balanceTopUpdateInterval = configuration.getInt("data.balance-top-update-interval", 5);
+    }
+
+    public int getVersion() {
+        return this.version;
+    }
+
+    public boolean isCheckForUpdates() {
+        return this.checkForUpdates;
+    }
+
+    public String getOnlineMode() {
+        return this.onlineMode;
+    }
+
+    public boolean isAltPrevention() {
+        return this.altPrevention;
+    }
+
+    public int getDefaultBalance() {
+        return this.defaultBalance;
+    }
+
+    public long getSendMin() {
+        return this.sendMin;
+    }
+
+    public long getSendMax() {
+        return this.sendMax;
+    }
+
+    public boolean isOpenSelectedEnabled() {
+        return this.openSelectedEnabled;
+    }
+
+    public String getOpenSelectedShop() {
+        return this.openSelectedShop;
+    }
+
+    public String getConfirmPurchaseTitle() {
+        return this.confirmPurchaseTitle;
+    }
+
+    public String getConfirmPurchaseConfirm() {
+        return this.confirmPurchaseConfirm;
+    }
+
+    public String getConfirmPurchaseCancel() {
+        return this.confirmPurchaseCancel;
+    }
+
+    public int getClickDelay() {
+        return this.clickDelay;
+    }
+
+    public boolean isCheckInventoryFull() {
+        return this.checkInventoryFull;
+    }
+
+    public boolean isLogPurchases() {
+        return this.logPurchases;
+    }
+
+    public boolean isMysqlEnabled() {
+        return this.mysqlEnabled;
+    }
+
+    public String getMysqlUsername() {
+        return this.mysqlUsername;
+    }
+
+    public String getMysqlPassword() {
+        return this.mysqlPassword;
+    }
+
+    public String getMysqlHostname() {
+        return this.mysqlHostname;
+    }
+
+    public String getMysqlPort() {
+        return this.mysqlPort;
+    }
+
+    public String getMysqlDatabase() {
+        return this.mysqlDatabase;
+    }
+
+    public String getMysqlTable() {
+        return this.mysqlTable;
+    }
+
+    public String getMysqlUrl() {
+        return this.mysqlUrl;
+    }
+
+    public boolean isRedisEnabled() {
+        return this.redisEnabled;
+    }
+
+    public String getRedisServer() {
+        return this.redisServer;
+    }
+
+    public int getRedisPort() {
+        return this.redisPort;
+    }
+
+    public String getRedisPassword() {
+        return this.redisPassword;
+    }
+
+    public boolean isRegisterEconomy() {
+        return this.registerEconomy;
+    }
+
+    public int getBalanceTopUpdateInterval() {
+        return this.balanceTopUpdateInterval;
     }
 
     private class Converter2_3 implements Converter {

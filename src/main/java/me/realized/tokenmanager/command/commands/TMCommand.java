@@ -3,12 +3,8 @@ package me.realized.tokenmanager.command.commands;
 import me.realized.tokenmanager.Permissions;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.command.BaseCommand;
-import me.realized.tokenmanager.command.commands.subcommands.GiveAllCommand;
-import me.realized.tokenmanager.command.commands.subcommands.OfflineCommand;
+import me.realized.tokenmanager.command.commands.subcommands.*;
 import me.realized.tokenmanager.command.commands.subcommands.OfflineCommand.ModifyType;
-import me.realized.tokenmanager.command.commands.subcommands.OpenCommand;
-import me.realized.tokenmanager.command.commands.subcommands.ReloadCommand;
-import me.realized.tokenmanager.command.commands.subcommands.TransferCommand;
 import org.bukkit.command.CommandSender;
 
 public class TMCommand extends BaseCommand {

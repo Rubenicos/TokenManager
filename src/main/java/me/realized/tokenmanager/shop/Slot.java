@@ -1,9 +1,5 @@
 package me.realized.tokenmanager.shop;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalLong;
-import lombok.Getter;
 import me.realized.tokenmanager.Permissions;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.api.event.TMShopPurchaseEvent;
@@ -15,29 +11,22 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
+
 public class Slot {
 
-    @Getter
     private final TokenManagerPlugin plugin;
-    @Getter
     private final Shop shop;
-    @Getter
     private final int slot;
-    @Getter
     private final int cost;
-    @Getter
     private final int emptySlotsRequired;
-    @Getter
     private final ItemStack displayed;
-    @Getter
     private final String message;
-    @Getter
     private final String subshop;
-    @Getter
     private final List<String> commands;
-    @Getter
     private final boolean usePermission;
-    @Getter
     private final boolean confirmPurchase;
 
     public Slot(final TokenManagerPlugin plugin, final Shop shop, final int slot, final int cost, final int emptySlotsRequired, final ItemStack displayed, final String message, final String subshop,
@@ -137,5 +126,49 @@ public class Slot {
         }
 
         return true;
+    }
+
+    public TokenManagerPlugin getPlugin() {
+        return this.plugin;
+    }
+
+    public Shop getShop() {
+        return this.shop;
+    }
+
+    public int getSlot() {
+        return this.slot;
+    }
+
+    public int getCost() {
+        return this.cost;
+    }
+
+    public int getEmptySlotsRequired() {
+        return this.emptySlotsRequired;
+    }
+
+    public ItemStack getDisplayed() {
+        return this.displayed;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public String getSubshop() {
+        return this.subshop;
+    }
+
+    public List<String> getCommands() {
+        return this.commands;
+    }
+
+    public boolean isUsePermission() {
+        return this.usePermission;
+    }
+
+    public boolean isConfirmPurchase() {
+        return this.confirmPurchase;
     }
 }

@@ -2,30 +2,27 @@ package me.realized.tokenmanager.util.profile;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 public final class NameFetcher {
 
     private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
     private static final String MOJANG_URL = "https://sessionserver.mojang.com/session/minecraft/profile/";
     private static final String GAMEAPIS_URL = "https://ss.gameapis.net/name/";
-    private static final JSONParser JSON_PARSER = new JSONParser();
+    private static final Gson GSON = new Gson();
     private static final Cache<UUID, String> UUID_TO_NAME = CacheBuilder.newBuilder()
         .concurrencyLevel(4)
         .maximumSize(1000)
@@ -55,8 +52,8 @@ public final class NameFetcher {
                     return null;
                 }
 
-                final JSONObject response = (JSONObject) JSON_PARSER.parse(new InputStreamReader(stream));
-                final String name = (String) response.get("name");
+                final JsonObject response = GSON.fromJson(new InputStreamReader(stream), JsonObject.class);
+                final String name = response.get("name").toString();
 
                 if (name != null) {
                     UUID_TO_NAME.put(uuid, name);

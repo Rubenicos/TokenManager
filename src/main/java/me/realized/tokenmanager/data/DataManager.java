@@ -2,13 +2,6 @@ package me.realized.tokenmanager.data;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.OptionalLong;
-import java.util.UUID;
-import java.util.function.Consumer;
-import lombok.Getter;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.command.commands.subcommands.OfflineCommand.ModifyType;
 import me.realized.tokenmanager.data.database.Database;
@@ -29,13 +22,15 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.*;
+import java.util.function.Consumer;
+
 public class DataManager implements Loadable, Listener {
 
     private final TokenManagerPlugin plugin;
 
     private Database database;
 
-    @Getter
     private List<TopElement> topCache = new ArrayList<>();
     private Integer topTask, updateInterval;
     private long lastUpdateMillis;
@@ -164,6 +159,10 @@ public class DataManager implements Loadable, Listener {
         final Player player = event.getPlayer();
         queuedCommands.asMap().remove(player.getUniqueId());
         database.save(player);
+    }
+
+    public List<TopElement> getTopCache() {
+        return this.topCache;
     }
 
     private class QueuedCommand {

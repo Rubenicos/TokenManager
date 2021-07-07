@@ -1,124 +1,66 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.apache.tools.ant.filters.ReplaceTokens
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
-    }
-}
-
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
-group 'me.realized'
-version '3.2.6-SNAPSHOT'
-
-compileJava.options.encoding = 'UTF-8'
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-
-shadowJar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-clean.doFirst {
-    delete "$rootDir/out/"
-}
-
-tasks.withType(ShadowJar) {
-    destinationDir = file("$rootDir/out/")
-}
+group 'me.realized.tokenmanager'
+version '3.2.6-UNOFFICIAL'
 
 processResources {
-    def group = project.group.toString() + "." + project.name.toLowerCase() + ".shaded"
-
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(sourceSets.main.resources.srcDirs) {
         include '**/*.yml'
-        filter(ReplaceTokens, tokens: [NAME: project.name, VERSION: project.version, SHADED_GROUP: group])
+        expand(
+                'version': project.version
+        )
     }
 }
 
 repositories {
+    // Spigot
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
+    // Bungeecord
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    // Vault
+    maven { url 'https://jitpack.io' }
+    // PlaceholderAPI
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    // Inventive repo
+    maven { url 'https://repo.inventivetalent.org/content/groups/public/' }
     mavenCentral()
-
-    maven {
-        name 'spigot-repo'
-        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots'
-    }
-
-    maven {
-        name 'bungeecord-repo'
-        url 'https://oss.sonatype.org/content/repositories/snapshots'
-    }
-
-    maven {
-        name 'vault-repo'
-        url 'http://nexus.hc.to/content/repositories/pub_releases'
-    }
-
-    maven {
-        name 'mvdw-repo'
-        url 'http://repo.mvdw-software.be/content/groups/public/'
-    }
-
-    maven {
-        name 'clip-repo'
-        url 'http://repo.extendedclip.com/content/repositories/placeholderapi/'
-    }
-
-    maven {
-        name 'bstats-repo'
-        url 'http://repo.bstats.org/content/repositories/releases/'
-    }
-
-    maven {
-        name 'inventive-repo'
-        url 'https://repo.inventivetalent.org/content/groups/public/'
-    }
 }
 
 dependencies {
-    compile 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
-    compile 'net.milkbowl.vault:VaultAPI:1.6'
-    compile 'me.clip:placeholderapi:2.10.5'
-    compile ('be.maximvdw:MVdWPlaceholderAPI:3.0.1-SNAPSHOT') { transitive = false }
-    compile 'org.projectlombok:lombok:1.16.20'
+    compileOnly ('org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT') {
+        exclude group: 'net.md-5', module: 'bungeecord-chat'
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
+    compileOnly ('com.github.MilkBowl:VaultAPI:1.7') {
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+    compileOnly 'me.clip:placeholderapi:2.10.9'
 
     // shaded dependencies
-    compile 'redis.clients:jedis:2.9.0'
-    compile 'org.apache.commons:commons-pool2:2.4.2'
-    compile 'com.zaxxer:HikariCP:2.7.8'
-    compile 'org.slf4j:slf4j-nop:1.7.25'
-    compile 'org.bstats:bstats-bukkit:1.2'
-    compile 'org.inventivetalent.spiget-update:bukkit:1.4.2-SNAPSHOT'
+    implementation 'redis.clients:jedis:2.9.0'
+    implementation 'org.apache.commons:commons-pool2:2.4.2'
+    implementation ('com.zaxxer:HikariCP:2.7.8') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+    implementation 'org.slf4j:slf4j-nop:1.7.25'
+    implementation ('org.inventivetalent.spiget-update:bukkit:1.4.2-SNAPSHOT') {
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
 }
 
 shadowJar {
-    baseName = 'TokenManager'
-    classifier = null
-
-    dependencies {
-        include(dependency('redis.clients:.*'))
-        include(dependency('org.apache.commons:.*'))
-        include(dependency('com.zaxxer:.*'))
-        include(dependency('org.slf4j:.*'))
-        include(dependency('org.bstats:.*'))
-        include(dependency('org.inventivetalent.spiget-update:.*'))
-    }
-
-    def group = project.group.toString() + "." + project.name.toLowerCase() + ".shaded."
-
-    relocate 'redis.clients', group + 'redis.clients'
-    relocate 'org.apache.commons.pool2', group + 'apache.commons.pool2'
-    relocate 'com.zaxxer.hikari', group + 'zaxxer.hikari'
-    relocate 'org.slf4j', group + "slf4j"
-    relocate 'org.bstats', group + 'bstats'
-    relocate 'org.inventivetalent.update.spiget', group + 'update.spiget'
+    relocate 'redis.clients', project.group + '.lib.redis'
+    relocate 'org.apache.commons.pool2', project.group + '.lib.commons'
+    relocate 'com.zaxxer.hikari', project.group + '.lib.hikari'
+    relocate 'org.slf4j', project.group + '.lib.slf4j'
+    relocate 'org.inventivetalent.update.spiget', project.group + '.lib.spiget'
+    archiveClassifier.set('')
 }
 
-build.dependsOn(shadowJar)
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}

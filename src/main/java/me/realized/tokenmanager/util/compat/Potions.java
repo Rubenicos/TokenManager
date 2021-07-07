@@ -1,11 +1,31 @@
 package me.realized.tokenmanager.util.compat;
 
-import java.util.Collection;
-import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
+
 public class Potions extends CompatBase {
+
+    public PotionType getType() {
+        return this.type;
+    }
+
+    public boolean isStrong() {
+        return this.strong;
+    }
+
+    public boolean isExtended() {
+        return this.extended;
+    }
+
+    public boolean isLinger() {
+        return this.linger;
+    }
+
+    public boolean isSplash() {
+        return this.splash;
+    }
 
     public enum PotionType {
 
@@ -18,9 +38,7 @@ public class Potions extends CompatBase {
         TURTLE_MASTER, SLOW_FALLING
     }
 
-    @Getter
     private final PotionType type;
-    @Getter
     private final boolean strong, extended, linger, splash;
 
     private Potions(final PotionType type, final boolean strong, final boolean extended, final boolean linger, final boolean splash) {

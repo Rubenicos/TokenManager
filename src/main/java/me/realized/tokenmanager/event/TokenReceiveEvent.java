@@ -1,9 +1,10 @@
 package me.realized.tokenmanager.event;
 
-import java.util.UUID;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import java.util.UUID;
 
 /**
  * @deprecated as of v3.2.0. Use {@link me.realized.tokenmanager.api.event.TMTokenSendEvent} instead.

@@ -1,13 +1,11 @@
 package me.realized.tokenmanager.util.compat;
 
-import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 public class SpawnEggs extends CompatBase {
 
-    @Getter
     private final EntityType type;
 
     public SpawnEggs(EntityType type) {
@@ -35,5 +33,9 @@ public class SpawnEggs extends CompatBase {
         }
 
         return null;
+    }
+
+    public EntityType getType() {
+        return this.type;
     }
 }

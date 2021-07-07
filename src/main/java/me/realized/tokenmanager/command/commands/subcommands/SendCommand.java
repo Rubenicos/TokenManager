@@ -1,8 +1,5 @@
 package me.realized.tokenmanager.command.commands.subcommands;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.OptionalLong;
 import me.realized.tokenmanager.Permissions;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.api.event.TMTokenSendEvent;
@@ -13,6 +10,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.OptionalLong;
 
 public class SendCommand extends BaseCommand {
 

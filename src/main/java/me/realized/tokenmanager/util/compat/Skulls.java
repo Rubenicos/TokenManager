@@ -1,8 +1,9 @@
 package me.realized.tokenmanager.util.compat;
 
+import org.bukkit.inventory.meta.SkullMeta;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
-import org.bukkit.inventory.meta.SkullMeta;
 
 public final class Skulls extends CompatBase {
 

@@ -1,27 +1,21 @@
 package me.realized.tokenmanager.shop;
 
-import java.util.HashMap;
-import java.util.Map;
-import lombok.AccessLevel;
-import lombok.Getter;
 import me.realized.tokenmanager.util.Placeholders;
 import me.realized.tokenmanager.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Shop {
 
-    @Getter
     private final String name;
     private final String title;
-    @Getter(value = AccessLevel.PACKAGE)
     private final Inventory inventory;
-    @Getter
     private final boolean autoClose;
-    @Getter
     private final boolean usePermission;
-    @Getter
     private final boolean confirmPurchase;
 
     private Map<Integer, Slot> slots;
@@ -74,5 +68,25 @@ public class Shop {
 
     public Slot getSlot(final int slot) {
         return slots != null ? slots.get(slot) : null;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    Inventory getInventory() {
+        return this.inventory;
+    }
+
+    public boolean isAutoClose() {
+        return this.autoClose;
+    }
+
+    public boolean isUsePermission() {
+        return this.usePermission;
+    }
+
+    public boolean isConfirmPurchase() {
+        return this.confirmPurchase;
     }
 }

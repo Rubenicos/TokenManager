@@ -1,11 +1,5 @@
 package me.realized.tokenmanager.command.commands.subcommands;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalLong;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.command.BaseCommand;
 import me.realized.tokenmanager.util.NumberUtil;
@@ -14,6 +8,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public class OfflineCommand extends BaseCommand {
 

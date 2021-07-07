@@ -1,12 +1,6 @@
 package me.realized.tokenmanager;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalLong;
-import java.util.stream.Collectors;
-import lombok.Getter;
 import me.realized.tokenmanager.api.TokenManager;
 import me.realized.tokenmanager.command.commands.TMCommand;
 import me.realized.tokenmanager.command.commands.TokenCommand;
@@ -24,47 +18,35 @@ import me.realized.tokenmanager.util.Loadable;
 import me.realized.tokenmanager.util.Log;
 import me.realized.tokenmanager.util.NumberUtil;
 import me.realized.tokenmanager.util.Reloadable;
-import me.realized.tokenmanager.util.StringUtil;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.inventivetalent.update.spiget.SpigetUpdate;
-import org.inventivetalent.update.spiget.UpdateCallback;
-import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
-public class TokenManagerPlugin extends JavaPlugin implements TokenManager, Listener {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.stream.Collectors;
 
-    private static final int RESOURCE_ID = 8610;
-    private static final String ADMIN_UPDATE_MESSAGE = "&9[TM] &bTokenManager &fv%s &7is now available for download! Download at: &c%s";
-    private static final String RESOURCE_URL = "https://www.spigotmc.org/resources/tokenmanager.8610/";
+public class TokenManagerPlugin extends JavaPlugin implements TokenManager {
 
-    @Getter
     private static TokenManagerPlugin instance;
 
     private final List<Loadable> loadables = new ArrayList<>();
     private int lastLoad;
 
-    @Getter
     private Config configuration;
-    @Getter
     private Lang lang;
-    @Getter
     private DataManager dataManager;
-    @Getter
     private ShopConfig shopConfig;
-    @Getter
     private ShopManager shopManager;
-    @Getter
     private WorthConfig worthConfig;
 
-    private volatile boolean updateAvailable;
-    private volatile String newVersion;
+    public static TokenManagerPlugin getInstance() {
+        return TokenManagerPlugin.instance;
+    }
 
     @Override
     public void onEnable() {
@@ -85,33 +67,6 @@ public class TokenManagerPlugin extends JavaPlugin implements TokenManager, List
 
         new TMCommand(this).register();
         new TokenCommand(this).register();
-
-        new Metrics(this);
-
-        if (!configuration.isCheckForUpdates()) {
-            return;
-        }
-
-        final SpigetUpdate updateChecker = new SpigetUpdate(this, RESOURCE_ID);
-        updateChecker.setVersionComparator(VersionComparator.SEM_VER_SNAPSHOT);
-        updateChecker.checkForUpdate(new UpdateCallback() {
-            @Override
-            public void updateAvailable(final String newVersion, final String downloadUrl, final boolean hasDirectDownload) {
-                TokenManagerPlugin.this.updateAvailable = true;
-                TokenManagerPlugin.this.newVersion = newVersion;
-                Log.info("===============================================");
-                Log.info("An update for " + getName() + " is available!");
-                Log.info("Download " + getName() + " v" + newVersion + " here:");
-                Log.info(RESOURCE_URL);
-                Log.info("===============================================");
-            }
-
-            @Override
-            public void upToDate() {
-                Log.info("No updates were available. You are on the latest version!");
-            }
-        });
-        getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
@@ -384,12 +339,27 @@ public class TokenManagerPlugin extends JavaPlugin implements TokenManager, List
         return null;
     }
 
-    @EventHandler
-    public void on(final PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
+    public Config getConfiguration() {
+        return this.configuration;
+    }
 
-        if (updateAvailable && (player.isOp() || player.hasPermission(Permissions.CMD_ADMIN))) {
-            player.sendMessage(StringUtil.color(String.format(ADMIN_UPDATE_MESSAGE, newVersion, RESOURCE_URL)));
-        }
+    public Lang getLang() {
+        return this.lang;
+    }
+
+    public DataManager getDataManager() {
+        return this.dataManager;
+    }
+
+    public ShopConfig getShopConfig() {
+        return this.shopConfig;
+    }
+
+    public ShopManager getShopManager() {
+        return this.shopManager;
+    }
+
+    public WorthConfig getWorthConfig() {
+        return this.worthConfig;
     }
 }

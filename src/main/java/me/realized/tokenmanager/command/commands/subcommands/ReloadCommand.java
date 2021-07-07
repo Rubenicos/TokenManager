@@ -1,14 +1,15 @@
 package me.realized.tokenmanager.command.commands.subcommands;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.command.BaseCommand;
 import me.realized.tokenmanager.util.Loadable;
 import me.realized.tokenmanager.util.Reloadable;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ReloadCommand extends BaseCommand {
 

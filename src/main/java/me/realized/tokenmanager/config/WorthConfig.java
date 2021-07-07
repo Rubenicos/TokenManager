@@ -1,8 +1,5 @@
 package me.realized.tokenmanager.config;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.OptionalLong;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.util.Reloadable;
 import me.realized.tokenmanager.util.config.AbstractConfiguration;
@@ -10,6 +7,10 @@ import org.bukkit.Material;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.OptionalLong;
 
 public class WorthConfig extends AbstractConfiguration<TokenManagerPlugin> implements Reloadable {
 

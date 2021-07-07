@@ -1,8 +1,9 @@
 package me.realized.tokenmanager.util;
 
-import java.util.List;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
 
 public final class Placeholders {
 

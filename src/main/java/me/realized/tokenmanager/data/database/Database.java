@@ -1,13 +1,14 @@
 package me.realized.tokenmanager.data.database;
 
-import java.util.List;
-import java.util.OptionalLong;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import me.realized.tokenmanager.command.commands.subcommands.OfflineCommand.ModifyType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+
+import java.util.List;
+import java.util.OptionalLong;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public interface Database {
 

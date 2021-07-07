@@ -1,13 +1,14 @@
 package me.realized.tokenmanager.util.hook;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 import me.realized.tokenmanager.util.Loadable;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractHookManager<P extends JavaPlugin> implements Loadable {
 

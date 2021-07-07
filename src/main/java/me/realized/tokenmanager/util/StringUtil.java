@@ -1,8 +1,9 @@
 package me.realized.tokenmanager.util;
 
+import org.bukkit.ChatColor;
+
 import java.util.List;
 import java.util.function.Function;
-import org.bukkit.ChatColor;
 
 public final class StringUtil {
 

@@ -2,26 +2,22 @@ package me.realized.tokenmanager.util.profile;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.net.HttpURLConnection;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import org.bukkit.Bukkit;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.Collections;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-/**
- * Modified version of UUIDFetcher by evilmidget38
- **/
 
 final class UUIDFetcher {
 
-    private static final String PROFILE_URL = "https://api.mojang.com/profiles/minecraft";
-    private static final JSONParser JSON_PARSER = new JSONParser();
+    private static final String PROFILE_URL = "https://api.mojang.com/users/profiles/minecraft/";
+    private static final Gson GSON = new Gson();
     private static final Cache<String, UUID> NAME_TO_UUID = CacheBuilder.newBuilder()
         .concurrencyLevel(4)
         .maximumSize(1000)
@@ -37,35 +33,26 @@ final class UUIDFetcher {
             return cached.toString();
         }
 
-        final HttpURLConnection connection = createConnection();
-        final String body = JSONArray.toJSONString(Collections.singletonList(name));
-        writeBody(connection, body);
-
-        try (Reader reader = new InputStreamReader(connection.getInputStream())) {
-            JSONArray array = (JSONArray) JSON_PARSER.parse(reader);
-            final JSONObject profile = (JSONObject) array.get(0);
-            final UUID uuid;
-            NAME_TO_UUID.put((String) profile.get("name"), uuid = get((String) profile.get("id")));
-            return uuid.toString();
+        String content;
+        try (InputStream in = new URL(PROFILE_URL + name).openStream(); BufferedInputStream buff = new BufferedInputStream(in)) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = buff.read(buf)) > 0) {
+                stream.write(buf, 0, len);
+            }
+            content = new String(stream.toByteArray(), StandardCharsets.UTF_8);
         }
-    }
 
-    private static void writeBody(HttpURLConnection connection, String body) throws Exception {
-        OutputStream stream = connection.getOutputStream();
-        stream.write(body.getBytes());
-        stream.flush();
-        stream.close();
-    }
-
-    private static HttpURLConnection createConnection() throws Exception {
-        URL url = new URL(PROFILE_URL);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setUseCaches(false);
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
-        return connection;
+        if (!content.isEmpty()) {
+            JsonObject object = GSON.fromJson(content, JsonObject.class);
+            if (object.has("name") && object.has("id")) {
+                final UUID uuid;
+                NAME_TO_UUID.put(object.get("name").toString(), uuid = get(object.get("id").getAsString()));
+                return uuid.toString();
+            }
+        }
+        return Bukkit.getOfflinePlayer(name).getUniqueId().toString();
     }
 
     private static UUID get(String id) {

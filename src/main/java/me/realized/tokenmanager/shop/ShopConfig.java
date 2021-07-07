@@ -1,12 +1,5 @@
 package me.realized.tokenmanager.shop;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalLong;
-import lombok.Getter;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.config.Config;
 import me.realized.tokenmanager.shop.gui.guis.ConfirmGui;
@@ -26,11 +19,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.*;
+
 public class ShopConfig extends AbstractConfiguration<TokenManagerPlugin> implements Reloadable {
 
     private final Map<String, Shop> shopSamples = new LinkedHashMap<>();
 
-    @Getter
     private Inventory confirmGuiSample;
 
     public ShopConfig(final TokenManagerPlugin plugin) {
@@ -167,5 +161,9 @@ public class ShopConfig extends AbstractConfiguration<TokenManagerPlugin> implem
 
         shopSamples.put(name, shop);
         return true;
+    }
+
+    public Inventory getConfirmGuiSample() {
+        return this.confirmGuiSample;
     }
 }

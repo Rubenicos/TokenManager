@@ -2,28 +2,6 @@ package me.realized.tokenmanager.data.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalLong;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import lombok.Getter;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.command.commands.subcommands.OfflineCommand.ModifyType;
 import me.realized.tokenmanager.config.Config;
@@ -45,6 +23,15 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
+import java.io.File;
+import java.sql.*;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 public class MySQLDatabase extends AbstractDatabase {
 
     private static final long LOGIN_WAIT_DURATION = 30L;
@@ -55,7 +42,6 @@ public class MySQLDatabase extends AbstractDatabase {
 
     private HikariDataSource dataSource;
 
-    @Getter
     private JedisPool jedisPool;
     private JedisListener listener;
     private transient boolean usingRedis;
@@ -429,6 +415,10 @@ public class MySQLDatabase extends AbstractDatabase {
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.publish("tokenmanager", message);
         } catch (JedisConnectionException ignored) {}
+    }
+
+    public JedisPool getJedisPool() {
+        return this.jedisPool;
     }
 
     private enum Query {

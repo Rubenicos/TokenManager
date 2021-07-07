@@ -1,13 +1,14 @@
 package me.realized.tokenmanager.api;
 
-import java.util.Optional;
-import java.util.OptionalLong;
-import java.util.UUID;
 import me.realized.tokenmanager.shop.Shop;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.UUID;
 
 public interface TokenManager {
 

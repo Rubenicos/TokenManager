@@ -1,13 +1,14 @@
 package me.realized.tokenmanager.data.database;
 
+import me.realized.tokenmanager.TokenManagerPlugin;
+import me.realized.tokenmanager.util.profile.ProfileUtil;
+import org.bukkit.entity.Player;
+
 import java.util.List;
 import java.util.OptionalLong;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import me.realized.tokenmanager.TokenManagerPlugin;
-import me.realized.tokenmanager.util.profile.ProfileUtil;
-import org.bukkit.entity.Player;
 
 public abstract class AbstractDatabase implements Database {
 

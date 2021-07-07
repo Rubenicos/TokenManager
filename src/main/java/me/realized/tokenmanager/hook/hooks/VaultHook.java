@@ -1,6 +1,5 @@
 package me.realized.tokenmanager.hook.hooks;
 
-import java.util.List;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.util.hook.PluginHook;
 import net.milkbowl.vault.economy.Economy;
@@ -8,6 +7,8 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.ServicePriority;
+
+import java.util.List;
 
 public class VaultHook extends PluginHook<TokenManagerPlugin> {
 

@@ -1,11 +1,12 @@
 package me.realized.tokenmanager.command.commands.subcommands;
 
-import java.util.List;
 import me.realized.tokenmanager.Permissions;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.command.BaseCommand;
 import me.realized.tokenmanager.data.database.Database.TopElement;
 import org.bukkit.command.CommandSender;
+
+import java.util.List;
 
 public class TopCommand extends BaseCommand {
 

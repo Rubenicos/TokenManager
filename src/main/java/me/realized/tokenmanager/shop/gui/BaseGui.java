@@ -1,6 +1,5 @@
 package me.realized.tokenmanager.shop.gui;
 
-import lombok.Getter;
 import me.realized.tokenmanager.TokenManagerPlugin;
 import me.realized.tokenmanager.shop.Shop;
 import me.realized.tokenmanager.shop.ShopManager;
@@ -11,7 +10,6 @@ public abstract class BaseGui {
 
     protected final TokenManagerPlugin plugin;
 
-    @Getter
     protected final Shop shop;
     protected final Inventory inventory;
 
@@ -45,4 +43,8 @@ public abstract class BaseGui {
      * @return true if a purchase was made. false otherwise
      */
     public abstract boolean handle(final Player player, final int slot);
+
+    public Shop getShop() {
+        return this.shop;
+    }
 }
