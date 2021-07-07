@@ -20,18 +20,18 @@ public class PlaceholderHook extends PluginHook<TokenManagerPlugin> {
         }
 
         @Override
-        public String getPlugin() {
-            return plugin.getName();
-        }
-
-        @Override
         public String getAuthor() {
             return "Realized";
         }
 
         @Override
         public String getVersion() {
-            return "1.0";
+            return "1.1";
+        }
+
+        @Override
+        public boolean persist() {
+            return true;
         }
 
         @Override
