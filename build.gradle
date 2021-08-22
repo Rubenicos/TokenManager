@@ -64,3 +64,7 @@ shadowJar {
 tasks.build {
     dependsOn(tasks.shadowJar)
 }
+
+compileJava {
+    options.release = 11
+}
