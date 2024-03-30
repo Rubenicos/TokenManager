@@ -1,116 +1,63 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
-buildscript {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
-    }
-}
-
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
-}
-
-group 'me.realized'
-version '3.2.8'
-
-compileJava.options.encoding = 'UTF-8'
-
-processResources {
-    def group = project.group.toString() + "." + project.name.toLowerCase() + ".shaded"
-
-    from(sourceSets.main.resources.srcDirs) {
-        include '**/*.yml'
-        filter(ReplaceTokens, tokens: [NAME: project.name, VERSION: project.version, SHADED_GROUP: group])
-    }
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 repositories {
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'https://oss.sonatype.org/content/repositories/central' }
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url 'https://repo.codemc.io/repository/maven-public/' }
+    maven { url 'https://repo.inventivetalent.org/content/groups/public/' }
     mavenCentral()
+}
 
-    maven {
-        name 'spigot-repo'
-        url 'https://hub.spigotmc.org/nexus/content/repositories/public'
-    }
-
-    maven {
-        name 'bungeecord-repo'
-        url 'https://oss.sonatype.org/content/repositories/snapshots'
-    }
-
-    maven {
-        name 'mvdw-repo'
-        url 'http://repo.mvdw-software.be/content/groups/public/'
-    }
-
-    maven {
-        name 'clip-repo'
-        url 'http://repo.extendedclip.com/content/repositories/placeholderapi/'
-    }
-
-    maven {
-        name 'codemc-repo'
-        url 'https://repo.codemc.io/repository/maven-public/'
-    }
-
-    maven {
-        name 'inventive-repo'
-        url 'https://repo.inventivetalent.org/content/groups/public/'
-    }
-
-    flatDir {
-        dirs "$rootDir/libs/"
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        include 'plugin.yml'
+        expand(rootProject.properties)
     }
 }
 
 dependencies {
-    compile 'org.projectlombok:lombok:1.18.22'
-    compile 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
-    compile (name: 'MVdWPlaceholderAPI-3.1.1') {
-        transitive = false
-    }
-    compile name: 'Vault-1.6.7'
-    compile 'me.clip:placeholderapi:2.10.9'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    compileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.10.9'
 
     // shaded dependencies
-    compile 'redis.clients:jedis:3.5.1'
-    compile 'org.apache.commons:commons-pool2:2.4.2'
-    compile 'com.zaxxer:HikariCP:4.0.2'
-    compile 'org.slf4j:slf4j-nop:1.7.32'
-    compile 'org.bstats:bstats-bukkit:1.7'
+    implementation 'redis.clients:jedis:3.5.1'
+    implementation 'org.apache.commons:commons-pool2:2.4.2'
+    implementation 'com.zaxxer:HikariCP:4.0.2'
+    implementation 'org.slf4j:slf4j-nop:1.7.32'
+    implementation 'org.bstats:bstats-bukkit:1.7'
+
+    compileOnly fileTree(dir: 'libs', includes: ['*.jar'])
 }
 
-clean.doFirst {
-    delete "$rootDir/out/"
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+jar {
+    enabled = false
+    dependsOn (shadowJar)
 }
 
 shadowJar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    destinationDir = file("$rootDir/out/")
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-    baseName = 'TokenManager'
-    classifier = null
-
-    dependencies {
-        include(dependency('redis.clients:.*'))
-        include(dependency('org.apache.commons:.*'))
-        include(dependency('com.zaxxer:.*'))
-        include(dependency('org.slf4j:.*'))
-        include(dependency('org.bstats:.*'))
-    }
-
-    def group = project.group.toString() + "." + project.name.toLowerCase() + ".shaded."
-
-    relocate 'redis.clients', group + 'redis.clients'
-    relocate 'org.apache.commons.pool2', group + 'apache.commons.pool2'
-    relocate 'com.zaxxer.hikari', group + 'zaxxer.hikari'
-    relocate 'org.slf4j', group + "slf4j"
-    relocate 'org.bstats', group + 'bstats'
+    archiveClassifier.set('')
+    relocate 'redis.clients.jedis', project.group + '.shaded.jedis'
+    relocate 'org.apache.commons.pool2', project.group + '.shaded.commons.pool2'
+    relocate 'com.zaxxer.hikari', project.group + '.shaded.hikari'
+    relocate 'org.slf4j', project.group + ".shaded.slf4j"
+    relocate 'org.bstats', project.group + '.shaded.bstats'
+    minimize()
 }
-
-build.dependsOn(shadowJar)
